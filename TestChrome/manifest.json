@@ -1,0 +1,30 @@
+{
+	"name": "Test1",
+	"version": "1.0",
+	"description": "test build",
+	"content_scripts": [
+    {
+      "matches": ["http://buscacursos.uc.cl/*"],
+      "js": ["background.js"],
+      "css": ["css.css"],
+      "popup": "popup.html"
+    }
+  ],
+    "icons": {
+        "16": "images/favicon16.png",
+        "32": "images/favicon32.png",
+        "48": "images/favicon48.png",
+        "128": "images/favicon128.png"
+      },
+    "browser_action": {
+	   "default_popup": "popup.html",
+      	"default_icon": {
+        "16": "images/favicon16.png",
+        "32": "images/favicon32.png",
+        "48": "images/favicon48.png",
+        "128": "images/favicon128.png"
+      }
+	  },
+	"manifest_version": 2
+
+}
