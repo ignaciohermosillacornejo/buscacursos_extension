@@ -1,7 +1,30 @@
-#wrapper{
-	background-color: black;	
+#LoginGoogle{
+	align-self: center;
+	background-color: #4285F4;
+	color: white;
+	border: none;
+	font-family: 'Roboto', sans-serif;
+	border-radius: 3px;
+	padding: 4% 8% 4% 8%;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#TituloSistemaDeBusqueda{
-	padding-left: -100pc;
+#ButtonModal{
+		align-self: center;
+	background-color: #4285F4;
+	color: white;
+	border: none;
+	font-family: 'Roboto', sans-serif;
+	border-radius: 3px;
+	padding: 4% 8% 4% 8%;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body{
+	width: 300px;
+	height: 40px;
 }

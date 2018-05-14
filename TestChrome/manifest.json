@@ -1,13 +1,13 @@
 {
-	"name": "Test1",
+	"name": "BuscaCursos++",
 	"version": "1.0",
 	"description": "test build",
 	"content_scripts": [
     {
       "matches": ["http://buscacursos.uc.cl/*"],
-      "js": ["background.js"],
-      "css": ["css.css"],
-      "popup": "popup.html"
+      "js": ["JS/jquery.js", "JS/jqueryui/jquery-ui.min.js","JS/add_button.js"],
+      "popup": "popup.html",
+      "css": ["JS/jqueryui/jquery-ui.min.css"]
     }
   ],
     "icons": {
@@ -25,6 +25,14 @@
         "128": "images/favicon128.png"
       }
 	  },
-	"manifest_version": 2
+    "background": {
+        "scripts": ["JS/background.js"],
+        "persistent": false
+    },
+	"manifest_version": 2,
+  "permissions": [
+    "http://private-c9944e-buscacursos.apiary-mock.com/reviews"
+  ],
+  "web_accessible_resources": ["images/favicon32.png", "ui-icons_444444_256x240.png", "ui-icons_555555_256x240.png", "ui-icons_777620_256x240.png", "ui-icons_777777_256x240.png", "ui-icons_cc0000_256x240.png", "ui-icons_ffffff_256x240.png"]
 
 }
