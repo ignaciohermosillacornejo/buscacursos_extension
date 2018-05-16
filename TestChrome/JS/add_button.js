@@ -42,18 +42,21 @@ inyect_scripts('JS/call_api.js');
 
 
 //Agregar los botones de BuscaCursos++ a la tabla de resultados
-function add_button(content, info){
- 	titulo = $(content).children("td:nth-child(2)").attr("title");
-	sigla = '\''+titulo.slice(1,titulo.indexOf(" "))+'\'';
-	nombre =  titulo.slice(titulo.indexOf(" "), titulo.lenght);
-	seccion = $(content).children("td:nth-child(5)").text();
-	info = {titulo, sigla,nombre,seccion};
-    $(content).append('<td class="iconBC"><input title="Ver Reviews" type="image" src="'+iconURL+'" onclick="open_dialog('+sigla+');"/></td>');
+function add_button(content,id){
+ 	// titulo = $(content).children("td:nth-child(2)").attr("title");
+	// sigla = '\''+titulo.slice(1,titulo.indexOf(" "))+'\'';
+	// nombre =  titulo.slice(titulo.indexOf(" "), titulo.lenght);
+	// seccion = $(content).children("td:nth-child(5)").text();
+	// info = {"titulo":titulo, "sigla":sigla,"nombre":nombre,"seccion":seccion};
+    $(content).append('<td class="iconBC" id="BC'+id+'"><input title="Ver Reviews" type="image" src="'+iconURL+'" onclick="open_dialog('+id+');"/></td>');
  };
 
- $(document).find('.resultadosRowPar').each(function(){
- 		add_button(this);
-   });
-  $(document).find('.resultadosRowImpar').each(function(){
-  		add_button(this);
-   });
+var i = 0;
+$(document).find('.resultadosRowPar').each(function(){
+	add_button(this,i);
+	i++;
+});
+$(document).find('.resultadosRowImpar').each(function(){
+	add_button(this,i);
+	i++;
+});

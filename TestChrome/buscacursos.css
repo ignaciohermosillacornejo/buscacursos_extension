@@ -1,0 +1,25 @@
+.comment-seccion *{
+	padding-top: 10px;
+
+}
+.comment-seccion {
+	height: 65%;
+
+}
+
+
+#button_comentario{
+	float: right;
+
+}
+
+#field_comentario{
+	width: 60%;
+
+}
+#newCommentForm{
+	padding-top: 10px;
+
+	bottom: 10px;
+
+}

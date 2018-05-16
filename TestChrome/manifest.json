@@ -7,7 +7,7 @@
       "matches": ["http://buscacursos.uc.cl/*"],
       "js": ["JS/jquery.js", "JS/jqueryui/jquery-ui.min.js","JS/add_button.js"],
       "popup": "popup.html",
-      "css": ["JS/jqueryui/jquery-ui.min.css"]
+      "css": ["JS/jqueryui/jquery-ui.min.css", "buscacursos.css"]
     }
   ],
     "icons": {
