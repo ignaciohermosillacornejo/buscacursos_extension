@@ -31,6 +31,9 @@
     },
 	"manifest_version": 2,
   "permissions": [
+    "storage",
+    "identity",
+    "http://localhost:3000/",
     "http://private-c9944e-buscacursos.apiary-mock.com/reviews"
   ],
   "web_accessible_resources": [
