@@ -1,6 +1,6 @@
- iconURL = chrome.extension.getURL("images/favicon32.png");
+iconURL = chrome.extension.getURL("images/favicon32.png");
 
-//Inyección de los archivos javascript necesarios para los funcionaminetos dentro de la pagina. 
+//Inyección de los archivos javascript necesarios para los funcionaminetos dentro de la pagina.
 function inyect_scripts(name){
 	var s = document.createElement('script');
 	s.src = chrome.extension.getURL(name);
@@ -37,6 +37,8 @@ addStyleString('.ui-state-active .ui-icon, .ui-button:active .ui-icon { backgrou
 addStyleString('.ui-state-highlight .ui-icon,.ui-button .ui-state-highlight.ui-icon { background-image: url("'+chrome.extension.getURL("JS/jqueryui/images/ui-icons_777620_256x240.png")+'");}');
 addStyleString('.ui-state-error .ui-icon, .ui-state-error-text .ui-icon { background-image: url("'+chrome.extension.getURL("JS/jqueryui/images/ui-icons_cc0000_256x240.png")+'");}');
 addStyleString('.ui-button .ui-icon { background-image: url("'+chrome.extension.getURL("JS/jqueryui/images/ui-icons_777777_256x240.png")+'");}');
+addStyleString('#button_delete { background-image: url("'+chrome.extension.getURL("images/icon_delete.png")+'")}');
+addStyleString('#button_edit { background-image: url("'+chrome.extension.getURL("images/icon_edit.png")+'")}');
 
 inyect_scripts('JS/call_api.js');
 

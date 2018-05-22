@@ -9,7 +9,7 @@
 
 
 #button_comentario{
-	float: right;
+	float: left;
 
 }
 
@@ -22,4 +22,24 @@
 
 	bottom: 10px;
 
+}
+
+#button_delete{
+	height: 14px;
+	width: 12px;
+	background-size: 12px 14px;
+	border-style: none;
+	background-color: transparent;
+	float: right;
+	top:0px;
+}
+
+#button_edit{
+	height: 14px;
+	width: 12px;
+	background-size: 12px 14px;
+	border-style: none;
+	background-color: transparent;
+	float: right;
+	top:0px;
 }
