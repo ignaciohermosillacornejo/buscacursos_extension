@@ -38,11 +38,48 @@ function handleSubmit(){
   console.log("you have submit a comment");
 };
 
+function handleEdit(){
+	var textAux = document.getElementById("field_comentario").value;
+ 	alert(textAux);
+}
+
 function delete_review(review_id){
 	data ={"review_id":review_id, "auth_token": "hd2s09fR32FdS"};
 	call_api("curso/reviews", data, 'DELETE', function(result){
 		$("#comment"+review_id).remove();
 	});
+}
+
+function edit_review(review_id){
+	//Elemento FORM
+    $("#newCommentForm").empty();  
+    text = $("#comment"+review_id).text();
+
+  //Label de comentario
+  	var commentLabel = $(document.createElement('label'));
+  	commentLabel.html("Editar Review:");
+
+  //input comentario
+  	var commentText = $(document.createElement('input'));
+  	$(commentText).attr('type', "text");
+  	$(commentText).attr('id', "field_comentario");
+  	$(commentText).attr('class',"text ui-widget-content ui-corner-all");
+
+
+  //submit button of the comment
+  	var commentSubmit = $(document.createElement('button'));
+  	$(commentSubmit).attr('onclick', "handleEdit()");
+  	$(commentSubmit).attr('id', "button_comentario")
+  	$(commentSubmit).attr('type', "button");
+  	commentSubmit.html("Editar");
+
+  //add elements to element comment
+  	$("#newCommentForm").append(commentLabel);
+  	$("#newCommentForm").append(commentText);
+  	$("#newCommentForm").append($(document.createElement('br')));
+  	$("#newCommentForm").append(commentSubmit);
+  	$("#field_comentario").val(text);
+  	
 }
 
 function open_dialog(id){
@@ -71,13 +108,20 @@ function open_dialog(id){
 	 		var review = $(document.createElement('div'));
 	 		$(review).attr('id', "comment"+element.id);
 	 		review.html(element.texto);
-	 		
+
+	 		//Agregar boton para editar
+	 		var editReview = $(document.createElement('button'));
+		  	$(editReview).attr('onclick', "edit_review("+element.id+")");
+		  	$(editReview).attr('id', "button_edit")
+		  	$(editReview).attr('type', "button");
+
 	 		//Agregar boton para eliminar
 	 		var deleteReview = $(document.createElement('button'));
 		  	$(deleteReview).attr('onclick', "delete_review("+element.id+")");
 		  	$(deleteReview).attr('id', "button_delete")
 		  	$(deleteReview).attr('type', "button");
 
+		  	review.append(editReview);
 		  	review.append(deleteReview);
 
 		  	comments_seccion.append(review);

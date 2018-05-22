@@ -38,6 +38,7 @@ addStyleString('.ui-state-highlight .ui-icon,.ui-button .ui-state-highlight.ui-i
 addStyleString('.ui-state-error .ui-icon, .ui-state-error-text .ui-icon { background-image: url("'+chrome.extension.getURL("JS/jqueryui/images/ui-icons_cc0000_256x240.png")+'");}');
 addStyleString('.ui-button .ui-icon { background-image: url("'+chrome.extension.getURL("JS/jqueryui/images/ui-icons_777777_256x240.png")+'");}');
 addStyleString('#button_delete { background-image: url("'+chrome.extension.getURL("images/icon_delete.png")+'")}');
+addStyleString('#button_edit { background-image: url("'+chrome.extension.getURL("images/icon_edit.png")+'")}');
 
 inyect_scripts('JS/call_api.js');
 

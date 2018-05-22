@@ -45,7 +45,8 @@
         "JS/jqueryui/images/ui-icons_777620_256x240.png",
         "JS/jqueryui/images/ui-icons_cc0000_256x240.png",
         "JS/jqueryui/images/ui-icons_ffffff_256x240.png",
-        "images/icon_delete.png"
+        "images/icon_delete.png",
+        "images/icon_edit.png"
       ]
 
 }
