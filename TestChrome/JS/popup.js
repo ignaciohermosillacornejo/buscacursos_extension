@@ -5,6 +5,7 @@ var oauth_token = null;
 var serverURL = 'http://localhost:3000/';
 var apiURL = serverURL + 'login/authorize?redirect_uri=' + encodeURIComponent(redirectUri);
 let login = document.getElementById('LoginGoogle');
+let logout = document.getElementById('LogOut');
 
 
 login.onclick = function (element) {
@@ -25,6 +26,12 @@ login.onclick = function (element) {
         }
     );
 };
+
+logout.onclick = function (element){
+    chrome.storage.sync.set({ 'oauth_token': "" }, function (data) {
+        console.log("oauth_token deleted");
+    });
+}
 
 function retrieveToken() {
     chrome.storage.sync.get(['oauth_token'], function (result) {

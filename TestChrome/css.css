@@ -10,6 +10,19 @@
     margin-left: auto;
     margin-right: auto;
 }
+#LogOut{
+	align-self: center;
+	background-color: #da2527;
+	color: white;
+	border: none;
+	font-family: 'Roboto', sans-serif;
+	border-radius: 3px;
+	padding: 4% 8% 4% 8%;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+}
 
 #ButtonModal{
 		align-self: center;

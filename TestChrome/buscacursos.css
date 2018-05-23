@@ -4,8 +4,8 @@
 }
 .comment-seccion {
 	overflow-y: scroll;
-	height: 65%;
-
+	height: 80%;
+	padding-right: 20px;
 }
 
 
@@ -33,6 +33,7 @@
 	background-color: transparent;
 	float: right;
 	top:0px;
+	margin-left: 5px;
 }
 
 #button_edit{
@@ -43,4 +44,43 @@
 	background-color: transparent;
 	float: right;
 	top:0px;
+	margin-left: 5px;
+}
+
+#button_like{
+	height: 14px;
+	width: 12px;
+	background-size: 12px 14px;
+	border-style: none;
+	background-color: transparent;
+	float: right;
+	top:0px;
+	margin-left: 5px;
+}
+
+#button_liked{
+	height: 14px;
+	width: 12px;
+	background-size: 12px 14px;
+	border-style: none;
+	background-color: transparent;
+	float: right;
+	top:0px;
+	margin-left: 5px;
+}
+
+#button_flag{
+	height: 14px;
+	width: 12px;
+	background-size: 12px 14px;
+	border-style: none;
+	background-color: transparent;
+	float: right;
+	top:0px;
+	margin-left: 5px;
+}
+
+.like_area{
+	float: right;
+	padding-top: 1px;
 }

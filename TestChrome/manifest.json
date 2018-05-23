@@ -49,7 +49,10 @@
         "JS/jqueryui/images/ui-icons_cc0000_256x240.png",
         "JS/jqueryui/images/ui-icons_ffffff_256x240.png",
         "images/icon_delete.png",
-        "images/icon_edit.png"
+        "images/icon_edit.png",
+        "images/icon_like.png",
+        "images/icon_liked.png",
+        "images/icon_flag.png"
       ]
 
 }

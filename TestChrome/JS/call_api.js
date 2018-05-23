@@ -8,15 +8,15 @@ function call_api(ext, data, type,callback){
  	//$.getJSON(url+call, function (result) {
 	 //   callback(result);
 	//});
-	if(token){
-		request_token();
-	}
+	
+	request_token();
+	
 
 	$.ajax({
 	   url: url+ext,
 	   type: type,
+	   contentType:'application/json',
 	   headers:{
-	   		contentType:'application/json',
 	   		"Authorization": token
 	   },
 	   data: JSON.stringify(data),
@@ -27,13 +27,25 @@ function call_api(ext, data, type,callback){
 	      },
 	   error: function(xhr, ajaxOptions, thrownError) {
 	      //On error do this
-	        if (xhr.status == 200) {
+	        if (xhr.status == 401) {
 
-	            alert(ajaxOptions);
+	            alert("Acceso No Autorizado, iniciar sesion con una cuenta @uc.cl");
+	        }
+	        if (xhr.status == 400) {
+
+	            alert("Error: Header Invalido");
+	        }
+	        if (xhr.status == 501) {
+
+	            alert("Funcionalidad aún no implementada");
+	        }
+	        if (xhr.status == 422) {
+
+	            alert("Error: Review Invalido");
 	        }
 	        else {
-	            alert(xhr.status);
-	            alert(thrownError);
+	            //alert(xhr.status);
+	            //alert(thrownError);
 	        }
 	    }
 	});
@@ -42,7 +54,7 @@ function call_api(ext, data, type,callback){
 
 
 function get_token(event){	
-	if(request_timer>1){
+	if(request_timer>15){
 		token = event.data.text;
 		remove_list();
 	}
@@ -77,7 +89,7 @@ function handleSubmit(){
   };
 
   call_api('reviews', newReview, 'POST', function(result){
-    add_review(result.data[0].reviews[0]);
+    add_review(result.data.reviews[0]);
   });
 
   document.getElementById("field_comentario").value = "";
@@ -88,7 +100,7 @@ function handleEdit(review_id){
 	data = {"content" : reviewEdit};
 	call_api("reviews/"+review_id, data, 'PUT', function(result){
 		$("#comment"+review_id).remove();
-		add_review(result.data[0].reviews[0]);
+		add_review(result.data.reviews[0]);
 	});
 
 	$("#newCommentForm").empty();
@@ -136,7 +148,30 @@ function edit_review(review_id){
   	
 }
 
+function like_review(review_id){
+	//total = $("#like"+review_id).
+	element = $("#like"+review_id);
+	total = parseInt(element.children().first().html());
+	if(element.children("button").attr('id') == "button_like"){
+		total++;
+		element.children("button").attr('id', "button_liked");
+	} else{
+		total--;
+		element.children("button").attr('id', "button_like"); 
+	}
+	
+	element.children().first().html(total);
+}
+
+function flag_review(review_id){
+
+}
+
 function open_dialog(id){
+	if(document.getElementById('dialog_buscacursos')){
+		$('#dialog_buscacursos').remove();
+	}
+
 	var content = $("#BC"+id).parent();
 	titulo = content.children("td:nth-child(2)").attr("title");
 	sigla = titulo.slice(0,titulo.indexOf(" "));
@@ -156,9 +191,10 @@ function open_dialog(id){
 	BC_dialog.dialog({
 		width: "50%",
 		modal: true,
-		height: "200",
+		height: "400",
 		title: titulo
 	});
+	BC_dialog.dialog('widget').attr('id', 'dialog_buscacursos');
 
 	BC_dialog.append(invisible);
 
@@ -222,11 +258,28 @@ function add_review(element){
 	$(review).attr('url', element.url);
 	review.html(element.content);
 
+	//Agregar boton like
+	var likeArea = $(document.createElement('label'));
+	$(likeArea).attr('id', "like"+element.id);
+	$(likeArea).attr('class', "like_area");
+	likeArea.html("<label>1</label>");
+	var likeReview = $(document.createElement('button'));
+	$(likeReview).attr('onclick', "like_review("+element.id+")");
+	$(likeReview).attr('id', "button_like")
+	$(likeReview).attr('type', "button");
+	likeArea.append(likeReview);
+
 	//Agregar boton para editar
 	var editReview = $(document.createElement('button'));
 	$(editReview).attr('onclick', "edit_review("+element.id+")");
 	$(editReview).attr('id', "button_edit")
-	$(editReview).attr('type', "button");	
+	$(editReview).attr('type', "button");
+
+	//Agregar boton para reportar
+	var flagReview = $(document.createElement('button'));
+	$(flagReview).attr('onclick', "flag_review("+element.id+")");
+	$(flagReview).attr('id', "button_flag")
+	$(flagReview).attr('type', "button");	
 
 	//Agregar boton para eliminar
 	var deleteReview = $(document.createElement('button'));
@@ -234,7 +287,10 @@ function add_review(element){
 	$(deleteReview).attr('id', "button_delete");
 	$(deleteReview).attr('type', "button");
 
-	review.append(editReview);
+	
 	review.append(deleteReview);
+	review.append(flagReview);
+	review.append(editReview);
+	review.append(likeArea);
 	$(".comment-seccion").append(review);
 }	

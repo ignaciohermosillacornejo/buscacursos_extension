@@ -18,10 +18,17 @@ $('head').append($('<link>')
     .attr("href", path));
 });
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-inyect_scripts("JS/jquery.js");
-inyect_scripts("JS/jqueryui/jquery-ui.min.js");
+async function inyect() {
+  inyect_scripts("JS/jquery.js");
+  await sleep(1000); //TODO-- CAMBIAR POR UN CALLBACK
+  inyect_scripts("JS/jqueryui/jquery-ui.min.js");
+}
 
+inyect();
 
 function addStyleString(str) {
     var node = document.createElement('style');
@@ -39,17 +46,16 @@ addStyleString('.ui-state-error .ui-icon, .ui-state-error-text .ui-icon { backgr
 addStyleString('.ui-button .ui-icon { background-image: url("'+chrome.extension.getURL("JS/jqueryui/images/ui-icons_777777_256x240.png")+'");}');
 addStyleString('#button_delete { background-image: url("'+chrome.extension.getURL("images/icon_delete.png")+'")}');
 addStyleString('#button_edit { background-image: url("'+chrome.extension.getURL("images/icon_edit.png")+'")}');
+addStyleString('#button_like { background-image: url("'+chrome.extension.getURL("images/icon_like.png")+'")}');
+addStyleString('#button_liked { background-image: url("'+chrome.extension.getURL("images/icon_liked.png")+'")}');
+addStyleString('#button_flag { background-image: url("'+chrome.extension.getURL("images/icon_flag.png")+'")}');
+
 
 inyect_scripts('JS/call_api.js');
 
 
 //Agregar los botones de BuscaCursos++ a la tabla de resultados
 function add_button(content,id){
- 	// titulo = $(content).children("td:nth-child(2)").attr("title");
-	// sigla = '\''+titulo.slice(1,titulo.indexOf(" "))+'\'';
-	// nombre =  titulo.slice(titulo.indexOf(" "), titulo.lenght);
-	// seccion = $(content).children("td:nth-child(5)").text();
-	// info = {"titulo":titulo, "sigla":sigla,"nombre":nombre,"seccion":seccion};
     $(content).append('<td class="iconBC" id="BC'+id+'"><input title="Ver Reviews" type="image" src="'+iconURL+'" onclick="open_dialog('+id+');"/></td>');
  };
 
