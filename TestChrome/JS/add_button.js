@@ -62,3 +62,13 @@ $(document).find('.resultadosRowImpar').each(function(){
 	add_button(this,i);
 	i++;
 });
+
+window.addEventListener('message', function(event) {
+   chrome.storage.sync.get(['oauth_token'], function (result) {
+        window.postMessage({ type: 'got_token',
+                         text: result.oauth_token},
+                       '*' /* targetOrigin: any */);
+    });
+});
+
+
