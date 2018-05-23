@@ -1,4 +1,5 @@
-url = "http://private-c9944e-buscacursos.apiary-mock.com/";
+//url = "http://private-c9944e-buscacursos.apiary-mock.com/";
+url = "http://localhost:3000/"
 var token;
 var request_timer = 0;
 
@@ -14,8 +15,8 @@ function call_api(ext, data, type,callback){
 	$.ajax({
 	   url: url+ext,
 	   type: type,
-	   contentType:'application/json',
 	   headers:{
+	   		contentType:'application/json',
 	   		"Authorization": token
 	   },
 	   data: JSON.stringify(data),
@@ -85,7 +86,7 @@ function handleSubmit(){
 function handleEdit(review_id){
 	var reviewEdit = document.getElementById("field_comentario").value;
 	data = {"content" : reviewEdit};
-	call_api("review/"+review_id, data, 'PUT', function(result){
+	call_api("reviews/"+review_id, data, 'PUT', function(result){
 		$("#comment"+review_id).remove();
 		add_review(result.data[0].reviews[0]);
 	});
@@ -98,7 +99,7 @@ function handleEdit(review_id){
 
 function delete_review(review_id){
 	data ={};
-	call_api("review/"+review_id, data, 'DELETE', function(result){
+	call_api("reviews/"+review_id, data, 'DELETE', function(result){
 		$("#comment"+review_id).remove();
 	});
 }
@@ -167,7 +168,7 @@ function open_dialog(id){
 
   //Agregar todos los reviews
 	call_api("courses/"+sigla, info, 'GET', function(result){
- 		result.data[0].reviews.forEach(function(element){
+ 		result.data.reviews.forEach(function(element){
 	 		add_review(element);
 	 	}); 
 
