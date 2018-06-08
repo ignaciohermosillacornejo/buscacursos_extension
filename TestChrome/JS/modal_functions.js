@@ -1,5 +1,5 @@
-//url = "http://private-c9944e-buscacursos.apiary-mock.com/";
-url = "http://localhost:3000/"
+url = "http://private-c9944e-buscacursos.apiary-mock.com/";
+//url = "http://localhost:3000/"
 var token;
 var request_timer = 0;
 
@@ -42,6 +42,9 @@ function call_api(ext, data, type,callback){
 	        if (xhr.status == 422) {
 
 	            alert("Error: Review Invalido");
+	        }
+	        if (xhr.status == 404){
+	        	throw "no reviews found";
 	        }
 	        else {
 	            //alert(xhr.status);
@@ -203,18 +206,32 @@ function open_dialog(id){
 	BC_dialog.append(comments_seccion);  
 
   //Agregar todos los reviews
-	call_api("courses/"+sigla, info, 'GET', function(result){
+  try{
+  	call_api("courses/"+sigla, info, 'GET', function(result){
  		result.data.reviews.forEach(function(element){
 	 		add_review(element);
 	 	}); 
-
- 	//add comment form
-  	var commentForm = add_comment_form();
-
-  	//add commentbox
-  	BC_dialog.append(commentForm);	
+	 	//add comment form
+	  	var commentForm = add_comment_form();
+	  	//add commentbox
+	  	BC_dialog.append(commentForm);	
 
 	});
+  }
+  finally{
+  		if(BC_dialog.children().length == 0){
+
+  		}
+  		var BC_error = $(document.createElement('div'));
+  		$(BC_error).attr('class',"no_reviews_error");
+  		$(BC_error).text("No hay reviews para este curso");
+  		comments_seccion.append(BC_error);
+  		//add comment form
+	  	var commentForm = add_comment_form();
+	  	//add commentbox
+	  	BC_dialog.append(commentForm);	
+  }
+	
 }
 
 function add_comment_form(){
@@ -292,5 +309,7 @@ function add_review(element){
 	review.append(flagReview);
 	review.append(editReview);
 	review.append(likeArea);
+
+	$(".no_reviews_error").remove();
 	$(".comment-seccion").append(review);
 }	
