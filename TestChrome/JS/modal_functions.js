@@ -153,18 +153,24 @@ function edit_review(review_id){
 
 function like_review(review_id){
 	//total = $("#like"+review_id).
-	element = $("#like"+review_id);
-	total = parseInt(element.children().first().html());
+	element = $("#like"+review_id);	
 	if(element.children("button").attr('id') == "button_like"){
-		total++;
-		element.children("button").attr('id', "button_liked");
+		call_api("review/"+review_id+"/like", "{}" ,'POST', function(result){
+			total = parseInt(element.children().first().html());
+			total++;
+			element.children("button").attr('id', "button_liked");
+			element.children().first().html(total);
+		});
 	} else{
-		total--;
-		element.children("button").attr('id', "button_like"); 
+		call_api("review/"+review_id+"/like", "{}" ,'DELETE', function(result){
+			total = parseInt(element.children().first().html());
+			total--;
+			element.children("button").attr('id', "button_like");
+			element.children().first().html(total);
+		});
 	}
-	
-	element.children().first().html(total);
 }
+
 
 function flag_review(review_id){
 
@@ -210,26 +216,26 @@ function open_dialog(id){
   	call_api("courses/"+sigla, info, 'GET', function(result){
  		result.data.reviews.forEach(function(element){
 	 		add_review(element);
-	 	}); 
-	 	//add comment form
-	  	var commentForm = add_comment_form();
-	  	//add commentbox
-	  	BC_dialog.append(commentForm);	
-
+	 	});
+	 	if(BC_dialog.children("#newCommentForm").length == 0){
+	 		//add comment form
+		  	var commentForm = add_comment_form();
+		  	//add commentbox
+		  	BC_dialog.append(commentForm);
+		 	} 
 	});
   }
   finally{
-  		if(BC_dialog.children().length == 0){
-
-  		}
-  		var BC_error = $(document.createElement('div'));
-  		$(BC_error).attr('class',"no_reviews_error");
-  		$(BC_error).text("No hay reviews para este curso");
-  		comments_seccion.append(BC_error);
-  		//add comment form
-	  	var commentForm = add_comment_form();
-	  	//add commentbox
-	  	BC_dialog.append(commentForm);	
+  		if(comments_seccion.children().length == 0){
+  			var BC_error = $(document.createElement('div'));
+	  		$(BC_error).attr('class',"no_reviews_error");
+	  		$(BC_error).text("No hay reviews para este curso");
+	  		comments_seccion.append(BC_error);
+	  		//add comment form
+		  	var commentForm = add_comment_form();
+		  	//add commentbox
+		  	BC_dialog.append(commentForm);
+  		}  			
   }
 	
 }
@@ -279,10 +285,16 @@ function add_review(element){
 	var likeArea = $(document.createElement('label'));
 	$(likeArea).attr('id', "like"+element.id);
 	$(likeArea).attr('class', "like_area");
-	likeArea.html("<label>1</label>");
+	likeArea.html("<label>"+element.like_total+"</label>");
 	var likeReview = $(document.createElement('button'));
 	$(likeReview).attr('onclick', "like_review("+element.id+")");
-	$(likeReview).attr('id', "button_like")
+	if(element.liked){
+		$(likeReview).attr('id', "button_liked")
+	}
+	else{
+		$(likeReview).attr('id', "button_like")
+	}
+	
 	$(likeReview).attr('type', "button");
 	likeArea.append(likeReview);
 
