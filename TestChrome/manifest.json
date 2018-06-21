@@ -37,10 +37,10 @@
     "http://private-c9944e-buscacursos.apiary-mock.com/reviews"
   ],
   "web_accessible_resources": [
-        "images/favicon32.png", 
-        "JS/modal_functions.js", 
-        "JS/jquery.js", 
-        "JS/jqueryui/jquery-ui.min.js", 
+        "images/favicon32.png",
+        "JS/modal_functions.js",
+        "JS/jquery.js",
+        "JS/jqueryui/jquery-ui.min.js",
         "JS/jqueryui/jquery-ui.min.css",
         "JS/jqueryui/images/ui-icons_777777_256x240.png",
         "JS/jqueryui/images/ui-icons_444444_256x240.png",
@@ -52,7 +52,8 @@
         "images/icon_edit.png",
         "images/icon_like.png",
         "images/icon_liked.png",
-        "images/icon_flag.png"
+        "images/icon_flag.png",
+				"images/icon_flaged.png"
       ]
 
 }
