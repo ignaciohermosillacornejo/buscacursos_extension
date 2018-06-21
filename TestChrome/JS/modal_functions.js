@@ -85,7 +85,7 @@ function handleSubmit(){
 
   var newReview = {
     "course":  {
-      "nombre": course.attr("nombre"),
+      "course": course.attr("nombre"),
       "number": course.attr("sigla")
     },
     "content": newText
@@ -184,11 +184,19 @@ function open_dialog(id){
 	var content = $("#BC"+id).parent();
 	titulo = content.children("td:nth-child(2)").attr("title");
 	sigla = titulo.slice(0,titulo.indexOf(" "));
-	nombre =  titulo.slice(titulo.indexOf(" "), titulo.lenght);
+	nombre =  titulo.slice(titulo.indexOf(" ")+1, titulo.lenght);
 	seccion = content.children("td:nth-child(5)").text();
 	info = {};
 
+
+	//FUNCION PARA SACAR LOS CURSOS
+	//salas = content.find('tbody').find("td:nth-child(3)").each(function(){
+	//	alert($(this).html());
+	//});
+	
+
 	var invisible = $(document.createElement('courseInfo'));
+	$(invisible).attr('class', "invisible");
 	$(invisible).attr('sigla', sigla);
 	$(invisible).attr('nombre', nombre);
 	$(invisible).attr('seccion', seccion);
