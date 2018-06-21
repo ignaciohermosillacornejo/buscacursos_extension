@@ -80,6 +80,17 @@
 	margin-left: 5px;
 }
 
+#button_flaged{
+	height: 14px;
+	width: 12px;
+	background-size: 12px 14px;
+	border-style: none;
+	background-color: transparent;
+	float: right;
+	top:0px;
+	margin-left: 5px;
+}
+
 .like_area{
 	float: right;
 	padding-top: 1px;

@@ -1,5 +1,5 @@
-url = "http://private-c9944e-buscacursos.apiary-mock.com/";
-//url = "http://localhost:3000/"
+//url = "http://private-c9944e-buscacursos.apiary-mock.com/";
+url = "http://localhost:3000/"
 var token;
 var request_timer = 0;
 
@@ -8,9 +8,9 @@ function call_api(ext, data, type,callback){
  	//$.getJSON(url+call, function (result) {
 	 //   callback(result);
 	//});
-	
+
 	request_token();
-	
+
 
 	$.ajax({
 	   url: url+ext,
@@ -56,7 +56,7 @@ function call_api(ext, data, type,callback){
  };
 
 
-function get_token(event){	
+function get_token(event){
 	if(request_timer>15){
 		token = event.data.text;
 		remove_list();
@@ -70,7 +70,7 @@ function request_token(){
                          text: ""},
                        '*' /* targetOrigin: any */);
 	window.addEventListener('message',get_token);
-	
+
 }
 
 function remove_list(){
@@ -112,6 +112,26 @@ function handleEdit(review_id){
 
 }
 
+function handleReport(review_id){
+	var reviewReport = document.getElementById("field_report").value;
+	data = {"content" : reviewReport};
+
+	call_api("reviews/"+review_id+"/report", data, 'POST', function(result){
+		//change icon
+		$(".flag"+review_id).attr('id', "button_flaged");
+	});
+
+	// placeholder for apiary
+	// call_api("review/"+"1"+"/report", data, 'PUT', function(result){
+	// 	//change icon
+	// 	$(".flag"+review_id).attr('id', "button_flaged");
+	// });
+
+	$("#newCommentForm").empty();
+	var commentForm = add_comment_form();
+	$("#newCommentForm").append(commentForm);
+}
+
 function delete_review(review_id){
 	data ={};
 	call_api("reviews/"+review_id, data, 'DELETE', function(result){
@@ -119,9 +139,9 @@ function delete_review(review_id){
 	});
 }
 
-function edit_review(review_id){ 
+function edit_review(review_id){
 	//Elemento FORM
-    $("#newCommentForm").empty();  
+    $("#newCommentForm").empty();
     text = $("#comment"+review_id).text();
 
   //Label de comentario
@@ -148,12 +168,47 @@ function edit_review(review_id){
   	$("#newCommentForm").append($(document.createElement('br')));
   	$("#newCommentForm").append(commentSubmit);
   	$("#field_comentario").val(text);
-  	
+
+}
+
+function flag_report(review_id){
+	//get flag of review with class of the flag
+	element = $(".flag"+review_id);
+
+	//check if flag active or not (only continue if "button_flag")
+	if(element.attr('id') == "button_flag"){
+
+		//empty comment of form
+		$("#newCommentForm").empty();
+
+		//Label report
+		var reportLabel = $(document.createElement('label'));
+		reportLabel.html("Motivo reporte:");
+
+		//input report
+		var reportText = $(document.createElement('input'));
+		$(reportText).attr('type', "text");
+		$(reportText).attr('id', "field_report");
+		$(reportText).attr('class',"text ui-widget-content ui-corner-all");
+
+		//submit button of the report
+		var reportSubmit = $(document.createElement('button'));
+		$(reportSubmit).attr('onclick', "handleReport("+review_id+")");
+		$(reportSubmit).attr('id', "button_report")
+		$(reportSubmit).attr('type', "button");
+		reportSubmit.html("Reportar");
+
+		//add elements to element report
+		$("#newCommentForm").append(reportLabel);
+		$("#newCommentForm").append(reportText);
+		$("#newCommentForm").append($(document.createElement('br')));
+		$("#newCommentForm").append(reportSubmit);
+	}
 }
 
 function like_review(review_id){
 	//total = $("#like"+review_id).
-	element = $("#like"+review_id);	
+	element = $("#like"+review_id);
 	if(element.children("button").attr('id') == "button_like"){
 		call_api("review/"+review_id+"/like", "{}" ,'POST', function(result){
 			total = parseInt(element.children().first().html());
@@ -172,10 +227,6 @@ function like_review(review_id){
 }
 
 
-function flag_review(review_id){
-
-}
-
 function open_dialog(id){
 	if(document.getElementById('dialog_buscacursos')){
 		$('#dialog_buscacursos').remove();
@@ -184,11 +235,13 @@ function open_dialog(id){
 	var content = $("#BC"+id).parent();
 	titulo = content.children("td:nth-child(2)").attr("title");
 	sigla = titulo.slice(0,titulo.indexOf(" "));
-	nombre =  titulo.slice(titulo.indexOf(" "), titulo.lenght);
+	nombre =  titulo.slice(titulo.indexOf(" ")+1, titulo.lenght);
 	seccion = content.children("td:nth-child(5)").text();
 	info = {};
 
 	var invisible = $(document.createElement('courseInfo'));
+	//Ejemplo: $(objeto).attr('nombre_attr', valor)
+	$(invisible).attr('class', "invisible")
 	$(invisible).attr('sigla', sigla);
 	$(invisible).attr('nombre', nombre);
 	$(invisible).attr('seccion', seccion);
@@ -209,7 +262,7 @@ function open_dialog(id){
 
 	var comments_seccion = $(document.createElement('div'));
 	$(comments_seccion).attr('class',"comment-seccion");
-	BC_dialog.append(comments_seccion);  
+	BC_dialog.append(comments_seccion);
 
   //Agregar todos los reviews
   try{
@@ -222,7 +275,7 @@ function open_dialog(id){
 		  	var commentForm = add_comment_form();
 		  	//add commentbox
 		  	BC_dialog.append(commentForm);
-		 	} 
+		 	}
 	});
   }
   finally{
@@ -235,9 +288,9 @@ function open_dialog(id){
 		  	var commentForm = add_comment_form();
 		  	//add commentbox
 		  	BC_dialog.append(commentForm);
-  		}  			
+  		}
   }
-	
+
 }
 
 function add_comment_form(){
@@ -245,7 +298,7 @@ function add_comment_form(){
   //Elemento FORM
     var commentForm = $(document.createElement('form'));
     $(commentForm).attr('id', "newCommentForm");
-  
+
 
   //Label de comentario
   	var commentLabel = $(document.createElement('label'));
@@ -294,9 +347,22 @@ function add_review(element){
 	else{
 		$(likeReview).attr('id', "button_like")
 	}
-	
+
 	$(likeReview).attr('type', "button");
 	likeArea.append(likeReview);
+
+	//Agregar boton para reportar
+	var flagReview = $(document.createElement('button'));
+	$(flagReview).attr('class',"flag"+element.id);
+	//$(flagReview).attr('flag_id',"flag"+element.id);
+	$(flagReview).attr('onclick', "flag_report("+element.id+")");
+	$(flagReview).attr('type', "button");
+	if(element.reported){
+		$(flagReview).attr('id', "button_flaged");
+	}
+	else{
+		$(flagReview).attr('id', "button_flag");
+	}
 
 	//Agregar boton para editar
 	var editReview = $(document.createElement('button'));
@@ -304,19 +370,13 @@ function add_review(element){
 	$(editReview).attr('id', "button_edit")
 	$(editReview).attr('type', "button");
 
-	//Agregar boton para reportar
-	var flagReview = $(document.createElement('button'));
-	$(flagReview).attr('onclick', "flag_review("+element.id+")");
-	$(flagReview).attr('id', "button_flag")
-	$(flagReview).attr('type', "button");	
-
 	//Agregar boton para eliminar
 	var deleteReview = $(document.createElement('button'));
 	$(deleteReview).attr('onclick', "delete_review("+element.id+")");
 	$(deleteReview).attr('id', "button_delete");
 	$(deleteReview).attr('type', "button");
 
-	
+
 	review.append(deleteReview);
 	review.append(flagReview);
 	review.append(editReview);
@@ -324,4 +384,4 @@ function add_review(element){
 
 	$(".no_reviews_error").remove();
 	$(".comment-seccion").append(review);
-}	
+}
