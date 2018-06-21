@@ -12,3 +12,4 @@ addStyleString('#button_edit { background-image: url("'+chrome.extension.getURL(
 addStyleString('#button_like { background-image: url("'+chrome.extension.getURL("images/icon_like.png")+'")}');
 addStyleString('#button_liked { background-image: url("'+chrome.extension.getURL("images/icon_liked.png")+'")}');
 addStyleString('#button_flag { background-image: url("'+chrome.extension.getURL("images/icon_flag.png")+'")}');
+addStyleString('#button_flaged { background-image: url("'+chrome.extension.getURL("images/icon_flaged.png")+'")}');
