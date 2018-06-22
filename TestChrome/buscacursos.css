@@ -6,22 +6,31 @@
 	overflow-y: scroll;
 	height: 80%;
 	padding-right: 20px;
+	padding-left: 20px;
 }
 
+#button_cancel{
+	float: right;
+	margin-top: -18px; 
+	margin-left: 5px;
+
+}
 
 #button_comentario{
 	float: right;
-
+	margin-top: -18px; 
 }
 
 #field_comentario{
 	width: 60%;
-
+	padding-left: 10px;
 }
 #newCommentForm{
 	padding-top: 10px;
-
-	bottom: 10px;
+	height: 19%;
+	background-color: #EBEBEB;
+	padding-right: 20px;
+	padding-left: 20px;
 
 }
 
@@ -95,3 +104,18 @@
 	float: right;
 	padding-top: 1px;
 }
+
+.boton_salas{
+	margin-top: -17px;
+	float: right;
+	margin-right: 15px;
+}
+
+#ui-id-1{
+	padding-left: 0px;
+	padding-right: 0px;
+	overflow: hidden;
+}
+
+
+

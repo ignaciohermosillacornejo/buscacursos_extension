@@ -1,5 +1,6 @@
 url = "http://private-c9944e-buscacursos.apiary-mock.com/";
 //url = "http://localhost:3000/"
+//url = "https://dry-sierra-14204.herokuapp.com/";
 var token;
 var request_timer = 0;
 
@@ -11,8 +12,8 @@ function call_api(ext, data, type,callback){
 
 	request_token();
 
-
-	$.ajax({
+	if( token != "banned"){
+		$.ajax({
 	   url: url+ext,
 	   type: type,
 	   contentType:'application/json',
@@ -52,6 +53,11 @@ function call_api(ext, data, type,callback){
 	        }
 	    }
 	});
+	}else{
+    	alert("El usuario está baneado");
+    }
+
+	
 
  };
 
@@ -95,7 +101,7 @@ function handleSubmit(){
     add_review(result.data.reviews[0]);
   });
 
-  document.getElementById("field_comentario").value = "";
+  resetear_comment_form();
 }
 
 function handleEdit(review_id){
@@ -106,10 +112,7 @@ function handleEdit(review_id){
 		add_review(result.data.reviews[0]);
 	});
 
-	$("#newCommentForm").empty();
-	var commentForm = add_comment_form();
-	$("#newCommentForm").append(commentForm);
-
+	resetear_comment_form();
 }
 
 function handleReport(review_id){
@@ -127,9 +130,7 @@ function handleReport(review_id){
 	// 	$(".flag"+review_id).attr('id', "button_flaged");
 	// });
 
-	$("#newCommentForm").empty();
-	var commentForm = add_comment_form();
-	$("#newCommentForm").append(commentForm);
+	resetear_comment_form();
 }
 
 function delete_review(review_id){
@@ -158,14 +159,22 @@ function edit_review(review_id){
   //submit button of the comment
   	var commentSubmit = $(document.createElement('button'));
   	$(commentSubmit).attr('onclick', "handleEdit("+review_id+")");
-  	$(commentSubmit).attr('id', "button_comentario")
+  	$(commentSubmit).attr('id', "button_comentario");
   	$(commentSubmit).attr('type', "button");
   	commentSubmit.html("Editar");
+
+  //Cancel edit button
+  	var commentCancel = $(document.createElement('button'));
+  	$(commentCancel).attr('onclick', "resetear_comment_form()");
+  	$(commentCancel).attr('id', "button_cancel");
+  	$(commentCancel).attr('type', "button");
+  	commentCancel.html("Cancelar");
 
   //add elements to element comment
   	$("#newCommentForm").append(commentLabel);
   	$("#newCommentForm").append(commentText);
   	$("#newCommentForm").append($(document.createElement('br')));
+  	$("#newCommentForm").append(commentCancel);
   	$("#newCommentForm").append(commentSubmit);
   	$("#field_comentario").val(text);
 
@@ -188,20 +197,28 @@ function flag_report(review_id){
 		//input report
 		var reportText = $(document.createElement('input'));
 		$(reportText).attr('type', "text");
-		$(reportText).attr('id', "field_report");
+		$(reportText).attr('id', "field_comentario");
 		$(reportText).attr('class',"text ui-widget-content ui-corner-all");
 
 		//submit button of the report
 		var reportSubmit = $(document.createElement('button'));
 		$(reportSubmit).attr('onclick', "handleReport("+review_id+")");
-		$(reportSubmit).attr('id', "button_report")
+		$(reportSubmit).attr('id', "button_comentario")
 		$(reportSubmit).attr('type', "button");
 		reportSubmit.html("Reportar");
+
+		//Cancel report button
+		var reportCancel = $(document.createElement('button'));
+		$(reportCancel).attr('onclick', "resetear_comment_form()");
+		$(reportCancel).attr('id', "button_cancel");
+		$(reportCancel).attr('type', "button");
+		reportCancel.html("Cancelar");
 
 		//add elements to element report
 		$("#newCommentForm").append(reportLabel);
 		$("#newCommentForm").append(reportText);
 		$("#newCommentForm").append($(document.createElement('br')));
+		$("#newCommentForm").append(reportCancel);
 		$("#newCommentForm").append(reportSubmit);
 	}
 }
@@ -393,3 +410,82 @@ function add_review(element){
 	$(".no_reviews_error").remove();
 	$(".comment-seccion").append(review);
 }
+
+function exportar_salas(){
+  
+  $(document).find(".iconBC").each(function(){
+    content = $(this).parent();
+    titulo = content.children("td:nth-child(2)").attr("title");
+    nombre =  titulo.slice(titulo.indexOf(" ")+1, titulo.lenght);
+    sigla = titulo.slice(0,titulo.indexOf(" "));
+    seccion = content.children("td:nth-child(5)").text();
+    if(seccion == "1"){
+    	console.log('Course.create(name:"'+nombre+'",number:"'+sigla+'")');
+    }
+    content.find('tbody').find("tr").each(function(){
+      tipo = $(this).children("td:nth-child(2)").html().replace(/ /g,'').replace(/\s/g,'');
+      sala = $(this).children("td:nth-child(3)").html().replace(/ /g,'').replace(/\s/g,'');
+    });
+  });
+ 
+};
+
+//Agregar las salas a los cursos 
+function mostrar_salas(){
+
+	limpiar_horario();
+
+	$("#divMiHorario").find(".tooltipProfesoresCurso").each(function(){
+		titulo = $(this).text();
+
+		sigla = titulo.substring(titulo.indexOf("-")+1,titulo.lastIndexOf("-"));
+		seccion = titulo.substring(titulo.lastIndexOf("-")+1,titulo.lenght);
+
+		call_api('courses/'+sigla+'/seccion/'+seccion, "{}",'GET', function(result){
+			
+			result.data.salas.forEach(function(element){
+				if(element.tipo == "CLAS"){
+					agregar_sala(sigla, "CAT", element.sala);
+				}
+				else if(element.tipo == "AYU"){
+					agregar_sala(sigla, "AYUD", element.sala);
+				}
+				else if(element.tipo == "TAL"){
+					agregar_sala(sigla, "TALL", element.sala);
+				}
+				else{
+					agregar_sala(sigla, element.tipo, element.sala);
+				}
+			});
+			
+		});
+	});
+}
+
+function agregar_sala(sigla,tipo,sala){
+	$(document).find('.horario'+tipo).each(function(){
+		if($(this).text() == sigla){
+			$(this).append("<br>"+sala);
+		}
+	});
+}
+
+function limpiar_horario(){
+	$(document).find('.horarioTABLA').each(function(){
+		sigla = $(this).text();
+		if (sigla.search("-") == -1){
+			return null;
+		}
+		sigla = sigla.slice(sigla.indexOf("-")+1, sigla.lenght);
+		$(this).text(sigla);
+	});
+}
+
+function resetear_comment_form(){
+	$("#newCommentForm").remove();
+	comment_form = add_comment_form();
+	$("#ui-id-1").append(comment_form);	
+	
+}
+
+

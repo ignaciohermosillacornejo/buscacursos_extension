@@ -47,24 +47,8 @@ $(document).find('.resultadosRowImpar').each(function(){
 	i++;
 });
 
-//Agregar las salas a los cursos 
-$(document).find('.horarioTABLA').each(function(){
-  sigla = $(this).text();
-  sigla = sigla.slice(sigla.indexOf("-")+1, sigla.lenght);
-  $(this).text(sigla);
-  if($(this).hasClass("horarioCAT")){
-    $(this).append("<br>SALA CAT");
-  }
-  else if($(this).hasClass("horarioAYUD")){
-    $(this).append("<br>SALA AYUD");
-  }
-  else if($(this).hasClass("horarioTALL")){
-    $(this).append("<br>SALA TALL");
-  }
-  else if($(this).hasClass("horarioLAB")){
-    $(this).append("<br>SALA LAB");
-  }
-});
+//Agregar boton para mostras salas en el horairo
+$("#divMiHorario").children("div:nth-child(1)").append('<button class="boton_salas botonChico" onclick="mostrar_salas()">Mostrar Salas</button>');
 
 
 //Busca token del usuario cuando es requerido
