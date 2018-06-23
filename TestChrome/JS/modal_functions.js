@@ -1,6 +1,6 @@
-url = "http://private-c9944e-buscacursos.apiary-mock.com/";
+//url = "http://private-c9944e-buscacursos.apiary-mock.com/";
 //url = "http://localhost:3000/"
-//url = "https://dry-sierra-14204.herokuapp.com/";
+url = "https://buscacursos.herokuapp.com/";
 var token;
 var request_timer = 0;
 
@@ -412,22 +412,29 @@ function add_review(element){
 }
 
 function exportar_salas(){
-  
+  output = "";
   $(document).find(".iconBC").each(function(){
+  	
     content = $(this).parent();
     titulo = content.children("td:nth-child(2)").attr("title");
     nombre =  titulo.slice(titulo.indexOf(" ")+1, titulo.lenght);
     sigla = titulo.slice(0,titulo.indexOf(" "));
     seccion = content.children("td:nth-child(5)").text();
     if(seccion == "1"){
-    	console.log('Course.create(name:"'+nombre+'",number:"'+sigla+'")');
+    	output += 'Course.create(name:"'+nombre+'",number:"'+sigla+'")\n';
     }
+    output += 'Section.create(number:'+seccion+', course:Course.where(number:"'+sigla+'").first)\n';
     content.find('tbody').find("tr").each(function(){
       tipo = $(this).children("td:nth-child(2)").html().replace(/ /g,'').replace(/\s/g,'');
       sala = $(this).children("td:nth-child(3)").html().replace(/ /g,'').replace(/\s/g,'');
+      if(sala == ""){
+      	sala = "SIN SALA";
+      }
+      output += 'Room.find_or_create_by(name:"'+sala+'")\n';
+      output += 'RoomSection.create(section:Section.where(number: '+seccion+',course:Course.where(number:"'+sigla+'").first).first,room:Room.where(name:"'+sala+'").first,activity:"'+tipo+'")\n';
     });
   });
- 
+  console.log(output);
 };
 
 //Agregar las salas a los cursos 
@@ -441,7 +448,7 @@ function mostrar_salas(){
 		sigla = titulo.substring(titulo.indexOf("-")+1,titulo.lastIndexOf("-"));
 		seccion = titulo.substring(titulo.lastIndexOf("-")+1,titulo.lenght);
 
-		call_api('courses/'+sigla+'/seccion/'+seccion, "{}",'GET', function(result){
+		call_api('courses/'+sigla+'/section/'+seccion, {},'GET', function(result){
 			
 			result.data.salas.forEach(function(element){
 				if(element.tipo == "CLAS"){
