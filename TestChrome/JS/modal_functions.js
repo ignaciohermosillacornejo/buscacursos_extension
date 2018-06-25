@@ -1,6 +1,6 @@
-//url = "http://private-c9944e-buscacursos.apiary-mock.com/";
+url = "http://private-c9944e-buscacursos.apiary-mock.com/";
 //url = "http://localhost:3000/"
-url = "https://buscacursos.herokuapp.com/";
+//url = "https://buscacursos.herokuapp.com/";
 var token;
 var request_timer = 0;
 
@@ -317,11 +317,16 @@ function open_dialog(id){
 }
 
 function add_comment_form(){
-
-  //Elemento FORM
-    var commentForm = $(document.createElement('form'));
-    $(commentForm).attr('id', "newCommentForm");
-
+	var commentForm;
+	BC_dialog = $("#dialog_buscacursos");
+	//Elemento FORM
+	if(BC_dialog.find("#newCommentForm").length == 0){
+		commentForm = $(document.createElement('form'));
+    	$(commentForm).attr('id', "newCommentForm");
+	}else{
+		commentForm = $("#newCommentForm");
+	}
+    	
 
   //Label de comentario
   	var commentLabel = $(document.createElement('label'));
@@ -349,6 +354,7 @@ function add_comment_form(){
   	commentForm.append(commentSubmit);
 
   	return commentForm;
+		
 }
 
 function add_review(element){
@@ -487,9 +493,10 @@ function limpiar_horario(){
 }
 
 function resetear_comment_form(){
-	$("#newCommentForm").remove();
+	$("#newCommentForm").empty();
 	comment_form = add_comment_form();
-	$("#ui-id-1").append(comment_form);	
+	BC_dialog = $(".comment-seccion").parent();
+	$("#newCommentForm").append(comment_form);	
 	
 }
 
