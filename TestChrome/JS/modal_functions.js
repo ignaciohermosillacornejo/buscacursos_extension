@@ -1,5 +1,5 @@
-url = "http://private-c9944e-buscacursos.apiary-mock.com/";
-//url = "http://localhost:3000/"
+//url = "http://private-c9944e-buscacursos.apiary-mock.com/";
+url = "http://localhost:3000/"
 //url = "https://buscacursos.herokuapp.com/";
 var token;
 var request_timer = 0;
@@ -12,7 +12,7 @@ function call_api(ext, data, type,callback){
 
 	request_token();
 
-	if( token != "banned"){
+	if( token != "banned"){ 
 		$.ajax({
 	   url: url+ext,
 	   type: type,
@@ -254,13 +254,6 @@ function open_dialog(id){
 	seccion = content.children("td:nth-child(5)").text();
 	info = {};
 
-
-	//FUNCION PARA SACAR LOS CURSOS
-	//salas = content.find('tbody').find("td:nth-child(3)").each(function(){
-	//	alert($(this).html());
-	//});
-	
-
 	var invisible = $(document.createElement('courseInfo'));
 
 	//Ejemplo: $(objeto).attr('nombre_attr', valor)
@@ -415,6 +408,8 @@ function add_review(element){
 	$(".comment-seccion").append(review);
 }
 
+
+//Funcion para obtener los datos de las salas de cada curso desde Buscacursos
 function exportar_salas(){
   output = "";
   $(document).find(".iconBC").each(function(){

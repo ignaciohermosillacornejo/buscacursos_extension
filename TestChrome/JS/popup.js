@@ -14,13 +14,14 @@ login.onclick = function (element) {
         url: apiURL,
         interactive: true
     },
-        function (redirectUri) {
+        function (redirectUri) {    
             if (redirectUri) {
                 var url = new URL(redirectUri);
                 var token = url.searchParams.get("access_token");
                 //oauth_token = token;
                 var matches = redirectUri.match(redirectRe);
                 chrome.storage.sync.set({ 'oauth_token': token }, function (data) {
+                    alert(token);
                     console.log("oauth_token stored on local database");
                 });
             }

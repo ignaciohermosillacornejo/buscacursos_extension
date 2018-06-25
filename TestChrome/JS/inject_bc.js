@@ -16,7 +16,7 @@ function sleep(ms) {
 
 async function inyect() {
   inyect_scripts("JS/jquery.js");
-  await sleep(1000); //TODO-- CAMBIAR POR UN CALLBACK
+  await sleep(1000); 
   inyect_scripts("JS/jqueryui/jquery-ui.min.js");
 }
 
