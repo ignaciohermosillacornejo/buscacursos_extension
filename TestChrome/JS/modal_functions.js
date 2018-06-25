@@ -55,9 +55,7 @@ function call_api(ext, data, type,callback){
 	});
 	}else{
     	alert("El usuario está baneado");
-    }
-
-	
+    }	
 
  };
 

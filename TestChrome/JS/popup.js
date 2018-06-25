@@ -2,7 +2,8 @@
 var redirectUri = chrome.identity.getRedirectURL('callback');
 var redirectRe = new RegExp(redirectUri + '[#\?](.*)');
 var oauth_token = null;
-var serverURL = 'http://localhost:3000/';
+//var serverURL = 'http://localhost:3000/';
+var serverURL = 'http://buscacursos.herokuapp.com/';
 var apiURL = serverURL + 'login/authorize?redirect_uri=' + encodeURIComponent(redirectUri);
 let login = document.getElementById('LoginGoogle');
 let logout = document.getElementById('LogOut');
