@@ -453,19 +453,18 @@ function mostrar_salas(){
 		seccion = titulo.substring(titulo.lastIndexOf("-")+1,titulo.lenght);
 
 		call_api('courses/'+sigla+'/section/'+seccion, {},'GET', function(result){
-			
-			result.data.salas.forEach(function(element){
-				if(element.tipo == "CLAS"){
-					agregar_sala(sigla, "CAT", element.sala);
+			result.data.rooms.forEach(function(element){
+				if(element.activity == "CLAS"){
+					agregar_sala(sigla, "CAT", element.room);
 				}
-				else if(element.tipo == "AYU"){
-					agregar_sala(sigla, "AYUD", element.sala);
+				else if(element.activity == "AYU"){
+					agregar_sala(sigla, "AYUD", element.room);
 				}
-				else if(element.tipo == "TAL"){
-					agregar_sala(sigla, "TALL", element.sala);
+				else if(element.activity == "TAL"){
+					agregar_sala(sigla, "TALL", element.room);
 				}
 				else{
-					agregar_sala(sigla, element.tipo, element.sala);
+					agregar_sala(sigla, element.activity, element.room);
 				}
 			});
 			
