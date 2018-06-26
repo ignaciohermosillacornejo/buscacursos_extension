@@ -114,7 +114,7 @@ function handleEdit(review_id){
 }
 
 function handleReport(review_id){
-	var reviewReport = document.getElementById("field_report").value;
+	var reviewReport = document.getElementById("field_comentario").value;
 	data = {"content" : reviewReport};
 
 	call_api("reviews/"+review_id+"/report", data, 'POST', function(result){
@@ -142,6 +142,8 @@ function edit_review(review_id){
 	//Elemento FORM
     $("#newCommentForm").empty();
     text = $("#comment"+review_id).text();
+    likes = $("#like"+review_id).text();
+    text = text.substring(0,text.length-likes.length);
 
   //Label de comentario
   	var commentLabel = $(document.createElement('label'));
@@ -225,14 +227,14 @@ function like_review(review_id){
 	//total = $("#like"+review_id).
 	element = $("#like"+review_id);
 	if(element.children("button").attr('id') == "button_like"){
-		call_api("review/"+review_id+"/like", "{}" ,'POST', function(result){
+		call_api("reviews/"+review_id+"/like", "{}" ,'POST', function(result){
 			total = parseInt(element.children().first().html());
 			total++;
 			element.children("button").attr('id', "button_liked");
 			element.children().first().html(total);
 		});
 	} else{
-		call_api("review/"+review_id+"/like", "{}" ,'DELETE', function(result){
+		call_api("reviews/"+review_id+"/like", "{}" ,'DELETE', function(result){
 			total = parseInt(element.children().first().html());
 			total--;
 			element.children("button").attr('id', "button_like");
