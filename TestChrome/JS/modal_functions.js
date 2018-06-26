@@ -444,24 +444,25 @@ function mostrar_salas(){
 	limpiar_horario();
 
 	$("#divMiHorario").find(".tooltipProfesoresCurso").each(function(){
-		titulo = $(this).text();
+		titulo_c = $(this).text();
+		console.log(titulo_c);
 
-		sigla = titulo.substring(titulo.indexOf("-")+1,titulo.lastIndexOf("-"));
-		seccion = titulo.substring(titulo.lastIndexOf("-")+1,titulo.lenght);
-
-		call_api('courses/'+sigla+'/section/'+seccion, {},'GET', function(result){
-			result.data.rooms.forEach(function(element){
+		sigla_c = titulo_c.substring(titulo_c.indexOf("-")+1,titulo_c.lastIndexOf("-"));
+		seccion_c = titulo_c.substring(titulo_c.lastIndexOf("-")+1,titulo_c.lenght);
+		console.log(sigla_c);
+		call_api('courses/'+sigla_c+'/section/'+seccion_c, {},'GET', function(result){
+			result.data.rooms.array.forEach(function(element){
 				if(element.activity == "CLAS"){
-					agregar_sala(sigla, "CAT", element.room);
+					agregar_sala(result.data.number, "CAT", element.room);
 				}
 				else if(element.activity == "AYU"){
-					agregar_sala(sigla, "AYUD", element.room);
+					agregar_sala(result.data.number, "AYUD", element.room);
 				}
 				else if(element.activity == "TAL"){
-					agregar_sala(sigla, "TALL", element.room);
+					agregar_sala(result.data.number, "TALL", element.room);
 				}
 				else{
-					agregar_sala(sigla, element.activity, element.room);
+					agregar_sala(result.data.number, element.activity, element.room);
 				}
 			});
 			
