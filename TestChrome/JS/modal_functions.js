@@ -107,7 +107,7 @@ function handleEdit(review_id){
 	data = {"content" : reviewEdit};
 	call_api("reviews/"+review_id, data, 'PUT', function(result){
 		$("#comment"+review_id).remove();
-		add_review(result.data.reviews[0]);
+		add_review(result.data);
 	});
 
 	resetear_comment_form();
