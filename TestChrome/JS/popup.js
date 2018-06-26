@@ -21,7 +21,6 @@ login.onclick = function (element) {
                 //oauth_token = token;
                 var matches = redirectUri.match(redirectRe);
                 chrome.storage.sync.set({ 'oauth_token': token }, function (data) {
-                    alert(token);
                     console.log("oauth_token stored on local database");
                 });
             }

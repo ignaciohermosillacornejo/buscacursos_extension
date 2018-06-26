@@ -445,11 +445,9 @@ function mostrar_salas(){
 
 	$("#divMiHorario").find(".tooltipProfesoresCurso").each(function(){
 		titulo_c = $(this).text();
-		console.log(titulo_c);
 
 		sigla_c = titulo_c.substring(titulo_c.indexOf("-")+1,titulo_c.lastIndexOf("-"));
 		seccion_c = titulo_c.substring(titulo_c.lastIndexOf("-")+1,titulo_c.lenght);
-		console.log(sigla_c);
 		call_api('courses/'+sigla_c+'/section/'+seccion_c, {},'GET', function(result){
 			result.data.rooms.array.forEach(function(element){
 				if(element.activity == "CLAS"){
